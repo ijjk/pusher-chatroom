@@ -1,0 +1,16 @@
+{
+  "name": "pusher-chatroom",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^9.0.3",
+    "pusher-js": "^5.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
