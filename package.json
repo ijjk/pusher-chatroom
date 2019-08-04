@@ -5,12 +5,28 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier --ignore-path .gitignore --write",
+    "format-all": "npm run format '**/*.js'",
+    "lint-staged": "lint-staged"
+  },
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.js": [
+      "npm run format",
+      "git add"
+    ]
   },
   "dependencies": {
     "next": "^9.0.3",
     "pusher-js": "^5.0.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "spectre.css": "^0.5.8"
+  },
+  "devDependencies": {
+    "lint-staged": "^9.2.1",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.18.2"
   }
 }

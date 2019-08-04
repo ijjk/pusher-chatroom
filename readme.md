@@ -1,12 +1,12 @@
 # Pusher Chatroom
 
-> demonstrates creating a real-time chatroom using [Pusher](https://pusher.com) and [Next.js](https://nextjs.org)
+> Demonstrates creating a real-time chatroom using [Pusher](https://pusher.com) and [Next.js](https://nextjs.org)
 
 ## Features
 
 - Joining with just a display name
 - Creation/joining/leaving of Chatrooms
-- Sending text/links/images/code blocks
+- Sending text/links/code blocks
 - Muting specific users
 
 ## Libraries used
@@ -31,3 +31,9 @@
 
 - Add bad-word filtering with an API endpoint
 - Send messages through API to prevent spam
+
+## Downsides to current implementation
+
+- limited to 10 messages per second per client [docs](https://pusher.com/docs/channels/using_channels/events#triggering-client-events)
+- can be abused since there isn't server-side filtering
+- can have username collision since there isn't authentication/checking
