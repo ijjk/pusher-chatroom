@@ -2,6 +2,8 @@
 
 > Demonstrates creating a real-time chatroom using [Pusher](https://pusher.com) and [Next.js](https://nextjs.org)
 
+Demo: https://pusher-chatroom.jj4.now.sh
+
 ## Features
 
 - Joining with just a display name
@@ -25,7 +27,8 @@
 
 1. Install `now` if not already installed `npm i -g now@latest`
 2. Login if not already
-3. Change to project directory and run `now`
+3. Add secrets for Pusher `now secrets add PUSHER_KEY <value>` (see now.json for needed values)
+4. Change to project directory and run `now`
 
 ## Potential improvements
 
@@ -36,4 +39,6 @@
 
 - limited to 10 messages per second per client [docs](https://pusher.com/docs/channels/using_channels/events#triggering-client-events)
 - can be abused since there isn't server-side filtering
-- can have username collision since there isn't authentication/checking
+- can have username collision (spoofing) since there isn't authentication/checking
+- messages aren't persisted since there isn't a DB connected
+- image uploads aren't supported since there is no storage provider setup
