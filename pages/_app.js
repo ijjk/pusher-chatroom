@@ -84,6 +84,7 @@ export default class MyApp extends App {
       sendMessage: text => {
         const { channels, curChannel } = this.state
         const channel = channels[curChannel]
+        if (!channel) return
         const message = {
           text,
           user: this.state.user,

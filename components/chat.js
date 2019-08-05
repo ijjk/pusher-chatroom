@@ -66,6 +66,10 @@ export default () => {
           font-weight: 600;
         }
 
+        .message .content {
+          word-wrap: break-word;
+        }
+
         .new-message {
           display: flex;
           align-items: center;
