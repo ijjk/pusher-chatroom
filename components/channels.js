@@ -18,9 +18,10 @@ export default () => {
   }
   const checkJoin = () => {
     const el = document.querySelector('#join-channel')
-    const val = (el.value || '').trim().toLowerCase()
+    let val = (el.value || '').trim().toLowerCase()
     if (!val) return
     el.value = ''
+    val = val.replace(/ /g, '-')
 
     if (!channels[val]) {
       joinChannel(val)
