@@ -1,6 +1,8 @@
 import React from 'react'
 import { ChatContext } from '../lib/chat-context'
 
+const maxLength = 256
+
 export default () => {
   const { sendMessage, channels, curChannel } = React.useContext(ChatContext)
   const channel = channels[curChannel] || []
@@ -8,7 +10,7 @@ export default () => {
   const checkSendMessage = () => {
     const el = document.querySelector('#new-message')
     const val = (el.value || '').trim()
-    if (!val) return
+    if (!val || val.length > maxLength) return
     el.value = ''
     sendMessage(val)
   }
@@ -33,9 +35,10 @@ export default () => {
       </div>
       <div className="new-message">
         <textarea
+          id="new-message"
+          maxLength={maxLength}
           className="form-input"
           placeholder="Your message..."
-          id="new-message"
         />
         <button className="btn btn-primary btn-lg" onClick={checkSendMessage}>
           Send
