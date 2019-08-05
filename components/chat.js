@@ -16,18 +16,20 @@ export default () => {
   return (
     <>
       <div className="messages">
-        {channel.length === 0 && (
-          <p className="no-messages">No new messages since joining...</p>
-        )}
-        {channel.map(({ text, user, sent }) => (
-          <div className="message" key={sent}>
-            <div className="info">
-              <span>{user}</span> -{' '}
-              <span>{new Date(sent).toLocaleString()}</span>
+        {!channel.messages ||
+          (channel.messages.length === 0 && (
+            <p className="no-messages">No new messages since joining...</p>
+          ))}
+        {channel.messages &&
+          channel.messages.map(({ text, user, sent }) => (
+            <div className="message" key={sent}>
+              <div className="info">
+                <span>{user}</span> -{' '}
+                <span>{new Date(sent).toLocaleString()}</span>
+              </div>
+              <div className="content">{text}</div>
             </div>
-            <div className="content">{text}</div>
-          </div>
-        ))}
+          ))}
       </div>
       <div className="new-message">
         <textarea

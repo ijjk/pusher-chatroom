@@ -1,11 +1,25 @@
+import Pusher from 'pusher-js'
 import App, { Container } from 'next/app'
 import { ChatContext } from '../lib/chat-context'
 import styles from 'spectre.css/dist/spectre.min.css'
 import icons from 'spectre.css/dist/spectre-icons.min.css'
 
+let pusher
+
 if (typeof window !== 'undefined') {
   window.addEventListener('beforeunload', e => {
     e.returnValue = 'Are you sure you want to leave? You will lose your state'
+  })
+
+  if (process.env.NODE_ENV !== 'production') {
+    // Enable pusher logging - isn't included in production
+    Pusher.logToConsole = true
+  }
+
+  pusher = new Pusher(process.env.PUSHER_KEY, {
+    cluster: 'eu',
+    forceTLS: true,
+    authEndpoint: '/api/auth',
   })
 }
 
@@ -30,13 +44,17 @@ export default class MyApp extends App {
           ...this.state,
           user: null,
           channels: {},
+          channelNames: [],
           curChannel: null,
         })
       },
       removeChannel: name => {
-        // TODO: also un-bind any events for the removed channel
         const newChannels = { ...this.state.channels }
         const newChannelNames = this.state.channelNames.filter(n => n !== name)
+        const channel = newChannels[name]
+
+        channel.sub.unbind('client-message')
+        pusher.unsubscribe(name)
         delete newChannels[name]
 
         let curChannel = this.state.curChannel
@@ -48,15 +66,22 @@ export default class MyApp extends App {
         })
       },
       joinChannel: name => {
-        // TODO: listen to events for newly joined channel
+        const sub = pusher.subscribe(`private-${name}`)
+        sub.bind('client-message', data => this.handleMessage(name, data))
+
         this.state.updateCtx({
           curChannel: name,
-          channels: { ...this.state.channels, [name]: [] },
+          channels: {
+            ...this.state.channels,
+            [name]: {
+              messages: [],
+              sub,
+            },
+          },
           channelNames: [...this.state.channelNames, name],
         })
       },
       sendMessage: text => {
-        // TODO: emit event for current channel sending message to others
         const { channels, curChannel } = this.state
         const channel = channels[curChannel]
         const message = {
@@ -64,10 +89,20 @@ export default class MyApp extends App {
           user: this.state.user,
           sent: new Date().getTime(),
         }
-        channel.push(message)
+        channel.messages.push(message)
+        channel.sub.trigger('client-message', message)
         this.setState({ channels })
       },
     }
+  }
+
+  handleMessage(channelName, message) {
+    const channel = this.state.channels[channelName]
+    channel.messages.push(message)
+
+    this.setState({
+      ...this.state,
+    })
   }
 
   render() {

@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "next": "^9.0.3",
+    "pusher": "^2.2.2",
     "pusher-js": "^5.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

@@ -22,17 +22,10 @@ export default () => {
     // Just an example could contain spaces if wanted
     if (user.includes(' ')) error = 'Username must not contain spaces'
   }
-
+  const submit = () => updateCtx({ user })
   const checkSubmit = e => {
     if (e.which === 13 && !error) {
-      updateCtx({
-        user,
-        channels: {
-          general: [],
-        },
-        curChannel: 'general',
-        channelNames: ['general'],
-      })
+      submit()
     }
   }
 
@@ -66,7 +59,7 @@ export default () => {
           </div>
         </div>
         <div className="modal-footer">
-          <button className="btn btn-primary" onClick={checkSubmit}>
+          <button className="btn btn-primary" onClick={submit}>
             Submit
           </button>
         </div>

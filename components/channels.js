@@ -30,6 +30,13 @@ export default () => {
     if (e.which === 13) checkJoin()
   }
 
+  // Auto-join general channel when username is set
+  React.useEffect(() => {
+    if (user && !channels.general) {
+      joinChannel('general')
+    }
+  }, [user])
+
   return (
     <>
       <div className="join-group">
@@ -54,7 +61,7 @@ export default () => {
         ) : (
           channelNames.map(name => {
             const channel = channels[name]
-            const lastMessage = channel[channel.length - 1]
+            const lastMessage = channel && channel.messages[channel.length - 1]
 
             return (
               <div
