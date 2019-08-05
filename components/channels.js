@@ -61,7 +61,8 @@ export default () => {
         ) : (
           channelNames.map(name => {
             const channel = channels[name]
-            const lastMessage = channel && channel.messages[channel.length - 1]
+            const lastMessage =
+              channel && channel.messages[channel.messages.length - 1]
 
             return (
               <div
