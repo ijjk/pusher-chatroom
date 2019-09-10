@@ -1,5 +1,5 @@
+import App from 'next/app'
 import Pusher from 'pusher-js'
-import App, { Container } from 'next/app'
 import { ChatContext } from '../lib/chat-context'
 import styles from 'spectre.css/dist/spectre.min.css'
 import icons from 'spectre.css/dist/spectre-icons.min.css'
@@ -40,6 +40,12 @@ export default class MyApp extends App {
         })
       },
       resetCtx: () => {
+        for (const name of this.state.channelNames) {
+          const channel = this.state.channels[name]
+          channel.sub.unbind('client-message')
+          pusher.unsubscribe(name)
+        }
+
         this.setState({
           ...this.state,
           user: null,
@@ -110,7 +116,7 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props
 
     return (
-      <Container>
+      <>
         <ChatContext.Provider value={this.state}>
           <Component {...pageProps} />
         </ChatContext.Provider>
@@ -129,7 +135,7 @@ export default class MyApp extends App {
         <style jsx global>
           {icons}
         </style>
-      </Container>
+      </>
     )
   }
 }
