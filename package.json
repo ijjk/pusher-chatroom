@@ -18,7 +18,7 @@
     ]
   },
   "dependencies": {
-    "next": "^9.0.5",
+    "next": "^9.3.2",
     "pusher": "^2.2.2",
     "pusher-js": "^5.0.0",
     "react": "^16.8.6",
